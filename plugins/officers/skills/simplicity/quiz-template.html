@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Site Questions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=DM+Sans:opsz,wght@9..40,400;9..40,700&display=swap">
+<style>
+/* Layout: one card at a time, a big picture on top (tap it to open it big), the question, two big buttons. */
+:root {
+  --paper: #f3eedf; --card: #fffaf0; --ink: #2c2c2a; --soft: #6b6456;
+  --yes: #e8b93a; --no: #fffaf0; --leaf: #50752f; --rust: #a8462b;
+  /* the picture viewer is dark behind the picture in both themes, like a chat's */
+  --veil: rgba(20, 19, 17, 0.98); --veil-ink: #f0e9d7; --veil-button: rgba(0, 0, 0, 0.35);
+  --display: "Bowlby One", "Arial Black", Impact, sans-serif;
+  --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1f1e1b; --card: #2a2823; --ink: #f0e9d7; --soft: #b0a792; --yes: #e8b93a; --no: #2a2823; --leaf: #8cb866; --rust: #e0805f; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1f1e1b; --card: #2a2823; --ink: #f0e9d7; --soft: #b0a792; --yes: #e8b93a; --no: #2a2823; --leaf: #8cb866; --rust: #e0805f; color-scheme: dark }
+.cover { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 16px; }
+.cover li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--soft); padding-bottom: 4px; }
+.cover li.miss b { color: var(--rust); }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 18px/1.45 var(--body); }
+.wrap { max-width: 720px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.dots { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--ink); background: transparent; padding: 0; cursor: pointer; }
+.dot.done { background: var(--leaf); border-color: var(--leaf); }
+.dot.here { outline: 3px solid var(--rust); outline-offset: 2px; }
+.card { background: var(--card); border: 3px solid var(--ink); border-radius: 18px; overflow: hidden; display: grid; }
+
+.card img { width: 100%; max-width: 100%; height: auto; display: block; border-bottom: 3px solid var(--ink); background: var(--card); cursor: zoom-in; }
+.card img:focus-visible { outline: 3px solid var(--rust); outline-offset: -3px; }
+.pics { display: grid; grid-template-columns: 1fr; border-bottom: 3px solid var(--ink); }
+.pics img { border-bottom: 0; }
+.pics img + img { border-top: 3px solid var(--ink); }
+
+.pics.side { grid-template-columns: repeat(var(--n), 1fr); align-items: start; }
+.pics.side img + img { border-top: 0; border-left: 3px solid var(--ink); }
+
+.viewer { position: fixed; inset: 0; z-index: 10; background: var(--veil); display: none; touch-action: none; overscroll-behavior: contain; }
+.viewer.open { display: block; }
+.viewer .vstage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.viewer img { max-width: 100%; max-height: 100%; width: auto; height: auto; transform-origin: center center; user-select: none; -webkit-user-drag: none; cursor: grab; }
+.viewer button { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--veil-ink); background: var(--veil-button); color: var(--veil-ink); font: 700 26px/1 var(--body); cursor: pointer; }
+.viewer .vclose { top: 12px; right: 12px; }
+.viewer .vprev { left: 12px; top: calc(50% - 24px); }
+.viewer .vnext { right: 12px; top: calc(50% - 24px); }
+.viewer button:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
+.inner { padding: 20px; display: grid; gap: 14px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 6vw, 36px); line-height: 1.1; margin: 0; text-wrap: balance; }
+.say { font-size: 19px; margin: 0; }
+/* The optional second paragraph (`more`, below): smaller than the line above it, so the question still leads. */
+.more { font-size: 17px; line-height: 1.5; margin: 0; }
+.buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.buttons button { font: 700 20px/1.2 var(--body); padding: 18px 12px; border-radius: 14px; border: 3px solid var(--ink); cursor: pointer; color: var(--ink); background: var(--no); }
+.buttons button.other { grid-column: 1 / -1; }
+.buttons button.pick { background: var(--yes); color: #2c2c2a; }
+.buttons button:focus-visible, .dot:focus-visible, .nav button:focus-visible, textarea:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
+textarea { font: 18px/1.4 var(--body); padding: 12px; border-radius: 12px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); min-height: 80px; width: 100%; box-sizing: border-box; }
+.nav { display: flex; justify-content: space-between; gap: 12px; }
+.nav button { font: 700 16px var(--body); background: none; border: 0; color: var(--soft); cursor: pointer; padding: 8px 4px; }
+.saved { font-size: 14px; color: var(--leaf); min-height: 20px; margin: 0; }
+.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.list li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--soft); padding-bottom: 6px; }
+.list b { text-align: right; }
+@media (max-width: 480px) { .buttons { grid-template-columns: 1fr; } }
+</style></head><body>
+
+<div class="wrap">
+  <div class="dots" id="dots" aria-label="Questions"></div>
+  <div id="stage"></div>
+  <p class="saved" id="saved" aria-live="polite"></p>
+</div>
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Picture">
+  <div class="vstage" id="vstage"><img id="vimg" alt=""></div>
+  <button class="vprev" id="vprev" aria-label="Previous picture">‹</button>
+  <button class="vnext" id="vnext" aria-label="Next picture">›</button>
+  <button class="vclose" id="vclose" aria-label="Close">×</button>
+</div>
+
+<script>
+/* THE QUIZ - how an officer shows the site owner what it found. To use: copy this file into
+   officer-reports/<officer>-YYYY-MM-DD/index.html, put the pictures in an img folder beside it, and replace Q.
+
+   Each question: img (a list of pictures, cropped to what the question is about; leave it out for none), title (the
+   question), say (one or two sentences in plain words), more (optional: a paragraph or two, split by a blank line),
+   key (a short id), and the answers as a, b, c (and d if needed), in the same order as the pictures. text: "a" (or b,
+   c) opens a box for their own words under that answer. Every question also gets Something else and a notes box.
+
+   The first question is always what was looked at: give it `list`, rows of [what, how it went], with `miss: true` on
+   a row that couldn't be looked at.
+
+   Answers stay in this browser, and "Copy my answers" copies them as text to paste back into the chat. The entries
+   below are an example. */
+const QUIZ_NAME = "Words round, (date)";   // change to the officer and today's date
+const Q = [
+  { title: "Here's everything I looked at.", say: "Every page, at laptop and phone size. Tell me if I missed one.",
+    list: [["Home", "laptop and phone"], ["Mixing", "laptop and phone"], ["Contact form, sent", "not looked at: you asked me not to send it", true]],
+    key: "coverage", a: "Looks right", b: "You missed one", c: "Look at the ones you couldn't", text: "b", placeholder: "Which page?" },
+  { img: ["img/home-now.png", "img/home-draft.png"], title: "The top of your home page says what the site is, not what you do.", side: true,
+    say: "Visitors read the first line to decide if they're in the right place.", more: "NOW: \"Welcome to my website\". DRAFT, from your own lines: \"I mix songs so they sound like the record you hear in your head.\"",
+    key: "home-top", a: "Keep it as is", b: "Use DRAFT 1" },
+];
+const OTHER = "Something else";
+let at = 0, answers = {}, notes = {}, saving = null;
+const STORE = "officer-quiz:" + location.pathname + ":" + QUIZ_NAME;
+const $ = (id) => document.getElementById(id);
+
+function dots() {
+  const box = $("dots"); box.textContent = "";
+  Q.forEach((q, i) => { const d = document.createElement("button"); d.className = "dot" + (answers[q.key] ? " done" : "") + (i === at ? " here" : ""); d.setAttribute("aria-label", `Question ${i + 1}`); d.onclick = () => { at = i; draw(); }; box.append(d); });
+  const end = document.createElement("button"); end.className = "dot" + (at === Q.length ? " here" : ""); end.setAttribute("aria-label", "Your answers"); end.onclick = () => { at = Q.length; draw(); }; box.append(end);
+}
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+
+function draw() {
+  dots();
+  const stage = $("stage"); stage.textContent = "";
+  const card = el("div", "card");
+  if (at === Q.length) {
+    const inner = el("div", "inner");
+    const n = Q.filter((q) => answers[q.key]).length;
+    inner.append(el("h1", "", n === Q.length ? "All done. Thank you!" : `${n} of ${Q.length} answered`));
+    inner.append(el("p", "say", n === Q.length ? "Press Copy my answers, then paste them into the chat." : "Tap a dot at the top to go back to one you skipped, or copy what you have so far."));
+    const copy = el("button", "pick", "Copy my answers"); const out = el("textarea"); out.readOnly = true; out.value = answerText(); out.id = "answer-text";
+    copy.onclick = async () => { try { await navigator.clipboard.writeText(out.value); copy.textContent = "Copied. Paste it into the chat."; } catch (e) { out.focus(); out.select(); copy.textContent = "Select all the text below and copy it"; } };
+    const row = el("div", "buttons"); row.append(copy); inner.append(row); inner.append(out);
+    const ul = el("ul", "list");
+    Q.forEach((q, i) => { const li = el("li"); li.append(el("span", "", `${i + 1}. ${q.title}`)); li.append(el("b", "", (answers[q.key] ? answers[q.key].pick + (answers[q.key].words ? ` - "${answers[q.key].words}"` : "") : "-") + (notes[q.key] ? ` (note: "${notes[q.key]}")` : ""))); ul.append(li); });
+    inner.append(ul); card.append(inner); stage.append(card); return;
+  }
+  const q = Q[at], mine = answers[q.key] || {};
+  const pics = (q.img || []).map((s, i) => {
+    const im = el("img"); im.src = s; im.alt = ""; im.tabIndex = 0; im.setAttribute("role", "button"); im.setAttribute("aria-label", "Open the picture");
+    im.onclick = () => openViewer(q.img, i, im);
+    im.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openViewer(q.img, i, im); } };
+    return im;
+  });
+  if (pics.length > 1) { const p = el("div", "pics"); p.style.setProperty("--n", pics.length); p.append(...pics); card.append(p); sideBySide(p, pics, q.side); }
+  else if (pics[0]) card.append(pics[0]);
+  const inner = el("div", "inner");
+  inner.append(el("h1", "", q.title));
+  inner.append(el("p", "say", q.say));
+  if (q.list) { const ul = el("ul", "cover"); for (const [what, how, miss] of q.list) { const li = el("li", miss ? "miss" : ""); li.append(el("span", "", what)); li.append(el("b", "", how)); ul.append(li); } inner.append(ul); }
+  for (const para of [].concat(q.more || []).flatMap((m) => String(m).split(/\n\s*\n/))) if (para.trim()) inner.append(el("p", "more", para.trim()));
+  const bs = el("div", "buttons");
+  for (const side of ["a", "b", "c", "d"].filter((k) => q[k])) {
+    const b = el("button", mine.pick === q[side] ? "pick" : "", q[side]);
+    b.onclick = () => { answers[q.key] = { pick: q[side], words: side === q.text ? (answers[q.key] && answers[q.key].words) || "" : "" }; save(); if (q.text === side) draw(); else { at = Math.min(at + 1, Q.length); draw(); } };
+    bs.append(b);
+  }
+  
+  const other = el("button", "other" + (mine.pick === OTHER ? " pick" : ""), OTHER);
+  other.onclick = () => { answers[q.key] = { pick: OTHER, words: (mine.pick === OTHER && mine.words) || "" }; save(); draw(); document.getElementById("words-" + q.key)?.focus(); };
+  bs.append(other);
+  inner.append(bs);
+  const own = mine.pick === OTHER;
+  if (own || (q.text && mine.pick === q[q.text])) {
+    const t = el("textarea"); t.id = "words-" + q.key; t.placeholder = own ? "Your answer" : q.placeholder; t.value = mine.words || "";
+    t.oninput = () => { answers[q.key].words = t.value; clearTimeout(saving); saving = setTimeout(save, 700); };
+    inner.append(t);
+    const next = el("button", "pick", "Next"); next.onclick = () => { save(); at++; draw(); };
+    const row = el("div", "buttons"); row.append(el("span")); row.append(next); inner.append(row);
+  }
+  
+  const n = el("textarea"); n.id = "note-" + q.key; n.placeholder = "Notes (optional)"; n.value = notes[q.key] || "";
+  n.oninput = () => { notes[q.key] = n.value; clearTimeout(saving); saving = setTimeout(save, 700); };
+  inner.append(n);
+  const nav = el("div", "nav");
+  const back = el("button", "", "‹ Back"); back.onclick = () => { at = Math.max(0, at - 1); draw(); };
+  const skip = el("button", "", "Skip ›"); skip.onclick = () => { at = Math.min(Q.length, at + 1); draw(); };
+  if (at > 0) nav.append(back); else nav.append(el("span"));
+  nav.append(skip); inner.append(nav);
+  card.append(inner); stage.append(card);
+}
+
+/* Answers are kept in this browser only, so a reload doesn't lose them. Copy my answers is how they reach the chat. */
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify({ answers, notes, at: new Date().toISOString() })); $("saved").textContent = "Saved in this browser"; }
+  catch (e) { $("saved").textContent = "This browser won't keep your answers, so copy them before you close the page."; }
+}
+function answerText() {
+  const lines = [QUIZ_NAME + ": my answers"];
+  Q.forEach((q, i) => {
+    const a = answers[q.key];
+    lines.push(`${i + 1}. ${q.title}`);
+    lines.push("   Answer: " + (a ? a.pick + (a.words ? ` - "${a.words}"` : "") : "(skipped)"));
+    if (notes[q.key]) lines.push(`   Note: "${notes[q.key]}"`);
+  });
+  return lines.join("\n");
+}
+
+/* Side by side only when every picture is taller than it is wide (phone screens), unless the question says. */
+function sideBySide(p, pics, force) {
+  if (force === true || force === false) { p.classList.toggle("side", force); return; }
+  let left = pics.length;
+  const decide = () => { if (--left > 0) return; p.classList.toggle("side", pics.length <= 3 && pics.every((im) => im.naturalHeight > im.naturalWidth)); };
+  for (const im of pics) {
+    if (im.complete) decide();
+    else { im.addEventListener("load", decide, { once: true }); im.addEventListener("error", decide, { once: true }); }
+  }
+}
+
+const V = { root: $("viewer"), stage: $("vstage"), img: $("vimg"), list: [], i: 0, from: null, s: 1, x: 0, y: 0, pts: new Map(), lastTap: null };
+function openViewer(list, i, from) {
+  V.list = list; V.from = from; V.root.classList.add("open"); document.body.style.overflow = "hidden";
+  showPic(i); $("vclose").focus();
+}
+function closeViewer() {
+  V.root.classList.remove("open"); document.body.style.overflow = ""; V.pts.clear();
+  if (V.from) V.from.focus();
+}
+function showPic(i) {
+  V.i = (i + V.list.length) % V.list.length; V.img.src = V.list[V.i];
+  V.s = 1; V.x = 0; V.y = 0; paint();
+  $("vprev").hidden = $("vnext").hidden = V.list.length < 2;
+}
+function paint() {
+  const r = V.stage.getBoundingClientRect();
+  const mx = Math.max(0, (V.img.offsetWidth * V.s - r.width) / 2), my = Math.max(0, (V.img.offsetHeight * V.s - r.height) / 2);
+  V.x = Math.min(mx, Math.max(-mx, V.x)); V.y = Math.min(my, Math.max(-my, V.y));
+  V.img.style.transform = `translate(${V.x}px, ${V.y}px) scale(${V.s})`;
+}
+/** Zoom to `s`, keeping the point under (px, py) where it is. */
+function zoomAt(px, py, s) {
+  s = Math.min(6, Math.max(1, s));
+  const r = V.stage.getBoundingClientRect(), ox = r.left + r.width / 2, oy = r.top + r.height / 2;
+  const k = s / V.s, cx = ox + V.x, cy = oy + V.y;
+  V.x = px - (px - cx) * k - ox; V.y = py - (py - cy) * k - oy; V.s = s;
+  if (s === 1) { V.x = 0; V.y = 0; }
+  paint();
+}
+V.stage.addEventListener("pointerdown", (e) => {
+  V.stage.setPointerCapture(e.pointerId);
+  V.pts.set(e.pointerId, { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, moved: V.pts.size > 0 });
+  if (V.pts.size > 1) for (const p of V.pts.values()) p.moved = true;   // a pinch is never a tap
+});
+V.stage.addEventListener("pointermove", (e) => {
+  const p = V.pts.get(e.pointerId); if (!p) return;
+  const before = [...V.pts.values()].map((q) => ({ x: q.x, y: q.y }));
+  p.x = e.clientX; p.y = e.clientY;
+  if (Math.hypot(p.x - p.x0, p.y - p.y0) > 8) p.moved = true;
+  const now = [...V.pts.values()];
+  if (now.length >= 2) {
+    const [a0, b0] = before, [a1, b1] = now;
+    const m0 = { x: (a0.x + b0.x) / 2, y: (a0.y + b0.y) / 2 }, m1 = { x: (a1.x + b1.x) / 2, y: (a1.y + b1.y) / 2 };
+    V.x += m1.x - m0.x; V.y += m1.y - m0.y;
+    zoomAt(m1.x, m1.y, V.s * Math.hypot(a1.x - b1.x, a1.y - b1.y) / Math.max(1, Math.hypot(a0.x - b0.x, a0.y - b0.y)));
+  } else if (V.s > 1) {
+    V.x += p.x - before[0].x; V.y += p.y - before[0].y; paint();
+  }
+});
+function liftPointer(e) {
+  const p = V.pts.get(e.pointerId); if (!p) return;
+  V.pts.delete(e.pointerId);
+  if (p.moved || V.pts.size > 0 || e.type === "pointercancel") return;
+  const now = performance.now(), last = V.lastTap;
+  if (last && now - last.t < 320 && Math.hypot(p.x - last.x, p.y - last.y) < 30) {   // a double-tap
+    V.lastTap = null; zoomAt(p.x, p.y, V.s > 1.05 ? 1 : 2.5); return;
+  }
+  V.lastTap = { t: now, x: p.x, y: p.y };
+  const r = V.img.getBoundingClientRect();
+  V.closeOnClick = V.s <= 1.05 && (p.x < r.left || p.x > r.right || p.y < r.top || p.y > r.bottom);
+}
+V.stage.addEventListener("pointerup", liftPointer);
+V.stage.addEventListener("pointercancel", liftPointer);
+/* A tap beside the picture closes it on the tap's own click, never on pointerup: closing any sooner hid the viewer
+   before the click came, and the click landed on the picture underneath and opened it again. */
+V.stage.addEventListener("click", () => { if (V.closeOnClick) closeViewer(); V.closeOnClick = false; });
+V.stage.addEventListener("wheel", (e) => { e.preventDefault(); zoomAt(e.clientX, e.clientY, V.s * Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
+V.img.addEventListener("load", paint);
+$("vclose").onclick = closeViewer;
+$("vprev").onclick = () => showPic(V.i - 1);
+$("vnext").onclick = () => showPic(V.i + 1);
+document.addEventListener("keydown", (e) => {
+  if (!V.root.classList.contains("open")) return;
+  if (e.key === "Escape") closeViewer();
+  else if (e.key === "ArrowLeft" && V.list.length > 1) showPic(V.i - 1);
+  else if (e.key === "ArrowRight" && V.list.length > 1) showPic(V.i + 1);
+});
+
+try { const d = JSON.parse(localStorage.getItem(STORE) || "null"); if (d) { answers = d.answers || {}; notes = d.notes || {}; } } catch (e) {}
+draw();
+</script>
+</body></html>
