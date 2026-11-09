@@ -7,12 +7,12 @@ short quiz with pictures. Nothing on your site changes until you say yes.
 
 | Officer | Type | What it looks for |
 |---|---|---|
-| Chief words officer | `/officers:words` | Every word sounds like you and says what it means. It learns your voice from lines you wrote yourself. |
-| Chief clutter officer | `/officers:clutter` | One thing to look at on every page, and nothing in its way. |
-| Chief simplicity officer | `/officers:simplicity` | Hearing your work, seeing prices and booking you take as few steps as possible. |
-| Chief delight officer | `/officers:delight` | Where a visit ends, and whether it leaves a good last impression. |
-| Chief consistency officer | `/officers:consistency` | Every font, size, colour and gap is one you chose, and the same thing looks the same everywhere. |
-| Godzilla | `/officers:godzilla` | Breaks your site on purpose (odd things typed into forms, double taps, phones turned sideways) so an artist doesn't find it first. |
+| Chief words officer | `/website:words` | Every word sounds like you and says what it means. It learns your voice from lines you wrote yourself. |
+| Chief clutter officer | `/website:clutter` | One thing to look at on every page, and nothing in its way. |
+| Chief simplicity officer | `/website:simplicity` | Hearing your work, seeing prices and booking you take as few steps as possible. |
+| Chief delight officer | `/website:delight` | Where a visit ends, and whether it leaves a good last impression. |
+| Chief consistency officer | `/website:consistency` | Every font, size, colour and gap is one you chose, and the same thing looks the same everywhere. |
+| Godzilla | `/website:godzilla` | Breaks your site on purpose (odd things typed into forms, double taps, phones turned sideways) so an artist doesn't find it first. |
 
 **How to install them:** [INSTALL.md](INSTALL.md).
 

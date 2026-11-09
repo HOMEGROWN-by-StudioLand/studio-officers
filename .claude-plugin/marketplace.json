@@ -4,8 +4,8 @@
   "owner": { "name": "StudioLand" },
   "plugins": [
     {
-      "name": "officers",
-      "source": "./plugins/officers",
+      "name": "website",
+      "source": "./plugins/website",
       "description": "Six officers that check your studio website: words, clutter, simplicity, delight, consistency and Godzilla."
     }
   ]

@@ -15,11 +15,11 @@ Claude Code can open your site in Chrome and click through it like a visitor, so
 
    ```
    /plugin marketplace add HOMEGROWN-by-StudioLand/studio-officers
-   /plugin install officers@studioland
+   /plugin install website@studioland
    ```
 
 5. **Turn on the browser** by typing `/chrome` and choosing **Enabled by default**.
-6. **Run one.** Type `/officers:words` (or clutter, simplicity, delight, consistency, godzilla). The first time, it asks you a few
+6. **Run one.** Type `/website:words` (or clutter, simplicity, delight, consistency, godzilla). The first time, it asks you a few
    questions about your site. After that it goes straight to work.
 
 When it's done, it opens a quiz in your browser. Answer it, press **Copy my answers**, and paste them back into Claude
