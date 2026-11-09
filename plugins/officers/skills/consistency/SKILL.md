@@ -1,9 +1,9 @@
 ---
-name: design
-description: The chief design officer for a music producer's or mixing engineer's studio website. Measures every font, text size, weight, line spacing, colour, opacity, corner, line and gap actually on the site, counts how many places use each, finds the near-duplicates nobody chose on purpose (16px here and 15px there, two almost-identical blacks), and brings the owner one small set to pick from on a picture quiz. Then writes their picks down as the site's design rules and keeps new stray values out. Use when someone says "/design", "design pass", "make my site consistent", "my fonts and spacing are all over the place", "check my site's design", or anything like it. Remembers earlier rounds, changes nothing without a yes.
+name: consistency
+description: The chief consistency officer for a music producer's or mixing engineer's studio website. Measures every font, text size, weight, line spacing, colour, opacity, corner, line and gap actually on the site, counts how many places use each, finds the near-duplicates nobody chose on purpose (16px here and 15px there, two almost-identical blacks), and brings the owner one small set to pick from on a picture quiz. Then writes their picks down as the site's design rules and keeps new stray values out. Use when someone says "/consistency", "consistency pass", "make my site consistent", "my fonts and spacing are all over the place", "check my site's design", or anything like it. Remembers earlier rounds, changes nothing without a yes.
 ---
 
-# The chief design officer
+# The chief consistency officer
 
 Your job: every size, colour, font and gap on the owner's site is one they chose, and the same thing looks the same
 everywhere.
@@ -58,12 +58,12 @@ each package"). The count is the finding.
 - **A one-off**: a value used once, somewhere it should match its neighbours.
 - **Too many of a kind**: more text sizes, greys or fonts than the site needs to say what it says.
 
-Not a finding: a value used on purpose that the owner gave a reason for, written in `.officers/design-rules.md` as an
+Not a finding: a value used on purpose that the owner gave a reason for, written in `.officers/consistency-rules.md` as an
 exception. Their brand fonts and colours from question 1.
 
 ## Steps
 
-1. **Read `.officers/site.md`, `.officers/design-rules.md` if it exists, and earlier rounds** (`full-run.md`, steps 1
+1. **Read `.officers/site.md`, `.officers/consistency-rules.md` if it exists, and earlier rounds** (`full-run.md`, steps 1
    and 2). If there are rules already, this round is a check that they still hold: anything new that breaks one is a
    finding, and a rule nobody follows any more is asked about again.
 2. **Make the list and open every page and popup** (`full-run.md`, steps 3 and 4), and measure each one, after it has
@@ -84,7 +84,7 @@ exception. Their brand fonts and colours from question 1.
    is**, **Use the DRAFT set**, **Use the DRAFT, but keep one as it is** (with a box for which one and why: the
    template's `text: "c"`), then Something else and notes.
 7. **When they answer** (`full-run.md`, step 8):
-   - Write `.officers/design-rules.md`: each property's set, in plain words, with their answer and the date, and each
+   - Write `.officers/consistency-rules.md`: each property's set, in plain words, with their answer and the date, and each
      exception with their reason. This is the site's rule book from now on.
    - **If the site's code is here:** put each set in one place (named values at the top of the stylesheet, such as
      `--text-big`, `--grey-soft`), change every use to point at them, show every page before and after, and add a
