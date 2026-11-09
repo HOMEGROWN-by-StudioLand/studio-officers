@@ -30,9 +30,10 @@ one, newest first. Keep track of:
 - a note they wrote that disagrees with the button they tapped. **The note wins.**
 
 **If the site's code is here, read its notes too**: a README, a notes file, and comments next to anything you're
-about to suggest changing. Owners often write down why something is the way it is ("kept quiet on purpose"). That's a
-decision, the same as a no on an earlier quiz: don't suggest undoing it without saying "you chose this on (date)
-because (their reason)" in the question.
+about to suggest changing. Owners often write down why something is the way it is ("kept quiet on purpose"). A note
+in the owner's own words, or one that says they decided it, is a decision, the same as a no on an earlier quiz: don't
+suggest undoing it without saying "you chose this on (date) because (their reason)" in the question. A note that only
+explains how something works, with nothing to show the owner chose it, isn't: ask on the quiz whether they did.
 
 In the Claude app there's no folder that lasts between chats. Ask the owner to attach their last round's file if they
 have one. At the end of the round, give them the new round file to keep.
@@ -51,6 +52,8 @@ section, a window that opens, a lightbox.
   mouse, the contact form empty, half filled, with an error and sent, a cart, a cookie banner, a newsletter popup.
 - **Two sizes, and one turn.** Laptop (1440 wide by 900 tall) and phone (390 wide by 844 tall). Also the phone turned
   sideways once.
+- **The not-found page.** Open an address that doesn't exist. If what shows is your test computer's own error page,
+  not the site's, list it as not looked at rather than judging it.
 - **Skip what the site doesn't have.** No payments means no payment checks; say so in a line, never invent one.
 
 ## 4. Open every line of the list
@@ -78,8 +81,8 @@ looking at the in-between bits: the moment between two pages, the busiest screen
 Never make a finding up to have something to show. A page that's fine gets ticked as fine.
 
 **Something that isn't your job** (a broken link the words officer notices, a wording problem the clutter officer
-sees) goes in the round file and on the quiz's last screen as "also noticed, for the (name) officer", one line each.
-It doesn't get a question of its own.
+sees) goes in the round file and in the quiz's `ALSO` list (shown on its last screen) as "for the (name) officer: ...",
+one line each. It doesn't get a question of its own.
 
 ## 6. Save as you go
 
@@ -89,8 +92,8 @@ screenshot saved in `.officers/<officer>/round-YYYY-MM-DD/`. If the chat stops h
 and carries on from the last finding.
 
 **Keep these files off the live site.** If the folder is a git repo, add `.officers/` and `officer-reports/` to its
-`.gitignore`. If the whole folder is what gets published (no build step that picks files), tell the owner and ask
-where to keep them instead.
+`.gitignore`. If the site is built by copying only chosen files, nothing to do. If the whole folder is what gets
+published, tell the owner and ask where to keep them instead.
 
 ## 7. The quiz
 
@@ -110,7 +113,7 @@ The owner answers on a quiz page, not in a long message. Start from `quiz-templa
     or write it onto the image afterwards with a small script. A caption under the picture isn't a label.
 - **Pictures and buttons go in the same order.** NOW is first, so the first button is "Keep it as is", then one button
   for each suggestion in the order its picture appears. Up to three phone-shaped pictures sit side by side; wide ones,
-  or more than three, go one above the other.
+  or more than three, or any drawn sheet, go one above the other (`side: false` on the question).
 - **Numbers come from what you measured.** "Booking: 4 pages to 2" counts the real page now and the mockup after; say
   "in the mockup" if the after can only be counted there. Never a guessed time.
 - **Every question also has Something else** (their own answer in their words) **and a notes box.**

@@ -19,7 +19,7 @@ Claude Code can open your site in Chrome and click through it like a visitor, so
    ```
 
 5. **Turn on the browser** by typing `/chrome` and choosing **Enabled by default**.
-6. **Run one.** Type `/officers:words` (or clutter, simplicity, delight, godzilla). The first time, it asks you a few
+6. **Run one.** Type `/officers:words` (or clutter, simplicity, delight, design, godzilla). The first time, it asks you a few
    questions about your site. After that it goes straight to work.
 
 When it's done, it opens a quiz in your browser. Answer it, press **Copy my answers**, and paste them back into Claude
@@ -33,18 +33,18 @@ To get new versions: `/plugin marketplace update studioland`
 ## In the Claude app
 
 The Claude app can read the words on your site, but it can't click through it or see it on a phone. The words and
-clutter officers work well there. Simplicity, delight and Godzilla only do part of their job, so use Claude Code for
+clutter officers work well there. Simplicity, delight, design and Godzilla only do part of their job, so use Claude Code for
 those if you can.
 
 1. In Claude, open **Settings**, then **Capabilities**, and turn on **Create and edit files** (it may be called
    "Code execution and file creation").
 2. Download the zip for each officer you want:
    [words](downloads/words.zip), [clutter](downloads/clutter.zip), [simplicity](downloads/simplicity.zip),
-   [delight](downloads/delight.zip), [godzilla](downloads/godzilla.zip).
+   [delight](downloads/delight.zip), [design](downloads/design.zip), [godzilla](downloads/godzilla.zip).
 3. Go to https://claude.ai/customize/skills, press **+**, choose **Create skill**, then **Upload a skill**. Upload one
    zip at a time.
 4. Start a new chat and say "words pass on my site" (or "clutter pass", "simplicity pass", "delight pass",
-   "Godzilla my site").
+   "design pass", "Godzilla my site").
 
 The Claude app doesn't remember between chats. At the end of each round the officer gives you a file: keep it, and
 attach it the next time you run that officer.

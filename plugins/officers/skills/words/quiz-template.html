@@ -90,7 +90,8 @@ textarea { font: 18px/1.4 var(--body); padding: 12px; border-radius: 12px; borde
 
    Answers stay in this browser, and "Copy my answers" copies them as text to paste back into the chat. The entries
    below are an example. */
-const QUIZ_NAME = "Words round, (date)";   // change to the officer and today's date
+const QUIZ_NAME = "Words round, (date)";
+const ALSO = [];   // "also noticed" lines for other officers, shown on the last screen: ["For the words officer: ..."]   // change to the officer and today's date
 const Q = [
   { title: "Here's everything I looked at.", say: "Every page, at laptop and phone size. Tell me if I missed one.",
     list: [["Home", "laptop and phone"], ["Mixing", "laptop and phone"], ["Contact form, sent", "not looked at: you asked me not to send it", true]],
@@ -120,6 +121,7 @@ function draw() {
     const n = Q.filter((q) => answers[q.key]).length;
     inner.append(el("h1", "", n === Q.length ? "All done. Thank you!" : `${n} of ${Q.length} answered`));
     inner.append(el("p", "say", n === Q.length ? "Press Copy my answers, then paste them into the chat." : "Tap a dot at the top to go back to one you skipped, or copy what you have so far."));
+    if (ALSO.length) { inner.append(el("h1", "", "Also noticed")); const al = el("ul", "list"); for (const t of ALSO) al.append(el("li", "", t)); inner.append(al); }
     const copy = el("button", "pick", "Copy my answers"); const out = el("textarea"); out.readOnly = true; out.value = answerText(); out.id = "answer-text";
     copy.onclick = async () => { try { await navigator.clipboard.writeText(out.value); copy.textContent = "Copied. Paste it into the chat."; } catch (e) { out.focus(); out.select(); copy.textContent = "Select all the text below and copy it"; } };
     const row = el("div", "buttons"); row.append(copy); inner.append(row); inner.append(out);
