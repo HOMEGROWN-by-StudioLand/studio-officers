@@ -1,8 +1,8 @@
-# StudioLand's officers: six checks for your studio website
+# StudioLand's officers: seven checks for your studio website
 
 <!-- About us: Carl, 8 Nov 2026, on the test page: "Use the draft". -->
 
-Six skills for Claude that go through your studio website the way a visitor would, and bring you what to fix as a
+Seven skills for Claude that go through your studio website the way a visitor would, and bring you what to fix as a
 short quiz with pictures. Nothing on your site changes until you say yes.
 
 | Officer | Type | What it looks for |
@@ -12,6 +12,7 @@ short quiz with pictures. Nothing on your site changes until you say yes.
 | Chief simplicity officer | `/website:simplicity` | Hearing your work, seeing prices and booking you take as few steps as possible. |
 | Chief delight officer | `/website:delight` | Where a visit ends, and whether it leaves a good last impression. |
 | Chief consistency officer | `/website:consistency` | Every font, size, colour and gap is one you chose, and the same thing looks the same everywhere. |
+| Grandma | `/website:grandma` | Someone who's bad with technology can hear your work, find your prices and get in touch, and where exactly they stop if they can't. |
 | Godzilla | `/website:godzilla` | Breaks your site on purpose (odd things typed into forms, double taps, phones turned sideways) so an artist doesn't find it first. |
 
 **How to install them:** [INSTALL.md](INSTALL.md).
