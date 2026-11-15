@@ -28,6 +28,7 @@ one, newest first. Keep track of:
 - what they said no to. **Never suggest a turned-down idea again** unless something it depended on has changed, and
   then say what changed.
 - a note they wrote that disagrees with the button they tapped. **The note wins.**
+- any gap they set between your guesses and their own numbers (step 7). Take it off this round's guesses too.
 
 **If the site's code is here, read its notes too**: a README, a notes file, and comments next to anything you're
 about to suggest changing. Owners often write down why something is the way it is ("kept quiet on purpose"). A note
@@ -116,6 +117,13 @@ The owner answers on a quiz page, not in a long message. Start from `quiz-templa
   or more than three, or any drawn sheet, go one above the other (`side: false` on the question).
 - **Numbers come from what you measured.** "Booking: 4 pages to 2" counts the real page now and the mockup after; say
   "in the mockup" if the after can only be counted there. Never a guessed time.
+- **Every number says where it came from.** Tag it **measured** (you counted, timed or checked it on the page this
+  round: "this button is on 14 pages") or **eyeballed** (it's your judgment: "about half of visitors would miss
+  this"). Anything you didn't check says "not checked", never a number.
+- **The owner's number beats yours.** If you guess how good or how bad something is and they give their own number,
+  write the gap in the round file ("I said 90, they said 65: 25 too generous") and take it off your later guesses,
+  this round and the next ones, until they give a new number. You'll grade your own work too kindly; this corrects it
+  once instead of every round.
 - **Every question also has Something else** (their own answer in their words) **and a notes box.**
 - **Findings that are one change share one question**, so a long list stays quick. Nothing is dropped to make it
   shorter.
